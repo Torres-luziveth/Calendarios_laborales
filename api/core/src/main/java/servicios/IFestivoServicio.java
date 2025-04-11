@@ -3,14 +3,12 @@ package calendariosLaborales.api.core.servicios;
 import java.time.LocalDate;
 import java.util.List;
 import calendariosLaborales.api.dominio.entidades.*;
-import entidades.Festivo;
-import entidades.Tipo;
 
 public interface IFestivoServicio {
 
     Boolean consultarSiEsFestivo(int idpais, LocalDate fecha);
 
-    List<Festivo> obtenerFestivosDelAnio(String pais, int anio);
+    public List<Festivo> obtenerFestivosDelAnio(String pais, int anio);
 
     public List<Festivo> listar();
 

@@ -1,11 +1,12 @@
 package calendariosLaborales.api.infraestructura.repositorios;
 
 import calendariosLaborales.api.dominio.entidades.*;
-import entidades.Tipo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface ITipoRepositorio extends JpaRepository<Tipo, Integer> {
