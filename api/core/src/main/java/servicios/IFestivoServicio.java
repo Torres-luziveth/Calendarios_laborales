@@ -8,7 +8,7 @@ import entidades.Tipo;
 
 public interface IFestivoServicio {
 
-    Festivo consultarSiEsFestivo(int idpais, LocalDate fecha);
+    Boolean consultarSiEsFestivo(int idpais, LocalDate fecha);
 
     List<Festivo> obtenerFestivosDelAnio(String pais, int anio);
 
