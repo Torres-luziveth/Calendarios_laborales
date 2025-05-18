@@ -1,0 +1,59 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>calendariosLaborales</groupId>
+        <artifactId>api</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>aplicacion</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>calendariosLaborales</groupId> <!-- Ajusta según el paquete de tu proyecto -->
+            <artifactId>dominio</artifactId>
+            <version>0.0.1-SNAPSHOT</version> <!-- O usa la versión que corresponda -->
+        </dependency>
+        <dependency>
+            <groupId>calendariosLaborales</groupId> <!-- Ajusta según el paquete de tu proyecto -->
+            <artifactId>core</artifactId>
+            <version>0.0.1-SNAPSHOT</version> <!-- O usa la versión que corresponda -->
+        </dependency>
+        <dependency>
+            <groupId>calendariosLaborales</groupId> <!-- Ajusta según el paquete de tu proyecto -->
+            <artifactId>infraestructura</artifactId>
+            <version>0.0.1-SNAPSHOT</version> <!-- O usa la versión que corresponda -->
+        </dependency>
+
+          <!-- Dependencia para Spring Data JPA -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- Dependencia para PostgreSQL -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+
+        <!-- Dependencia para Spring Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
