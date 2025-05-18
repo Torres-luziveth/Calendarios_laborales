@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.time.DayOfWeek;
 import java.time.temporal.TemporalAdjusters;
+import java.time.DateTimeException;
+
 
 @Service
 public class FestivoServicioImpl implements IFestivoServicio {
@@ -22,6 +24,19 @@ public class FestivoServicioImpl implements IFestivoServicio {
 
     @Override
     public boolean esFestivo(int idPais, int anio, int mes, int dia) {
+        // Validación básica de fecha
+        try {
+            LocalDate fecha = LocalDate.of(anio, mes, dia);
+            // resto de la lógica...
+        } 
+        catch (DateTimeException e) {
+        // Aquí decides cómo manejar el error: 
+        // - lanzar una excepción propia 
+        // - o retornar false
+        // - o lanzar una RuntimeException con mensaje claro
+            throw new IllegalArgumentException("Fecha inválida: " + anio + "-" + mes + "-" + dia);
+        }
+
         LocalDate fecha = LocalDate.of(anio, mes, dia);
         var festivosPais = festivoRepositorio.findFestivosVariablesByPaisId(idPais);
         List<LocalDate> fechasFestivos = new ArrayList<>();
@@ -37,16 +52,26 @@ public class FestivoServicioImpl implements IFestivoServicio {
                     fechasFestivos.add(fechaFestivo);
                     break;
 
-                case 2: // Ley Puente Festivo (lunes)
+                case 2: // Ley Puente Festivo (según Ley 51 de 1983)
                     fechaFestivo = LocalDate.of(anio, festivo.getMes(), festivo.getDia());
-                    if (fechaFestivo.getDayOfWeek() != DayOfWeek.MONDAY) {
-                        fechaFestivo = fechaFestivo.with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
+                    DayOfWeek diaMes = fechaFestivo.getDayOfWeek();
+
+                    System.out.println("Evaluando festivo: " + festivo.getNombre() + " (" + fechaFestivo + ") día: " + diaMes);
+
+                    // Solo trasladar si cae entre martes y jueves
+                    if (diaMes == DayOfWeek.TUESDAY || diaMes == DayOfWeek.WEDNESDAY || diaMes == DayOfWeek.THURSDAY) {
+                        fechaFestivo = fechaFestivo.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+                        System.out.println("Trasladado a lunes: " + fechaFestivo);
+                    } else {
+                        System.out.println("No se traslada.");
                     }
+
                     fechasFestivos.add(fechaFestivo);
                     break;
 
                 case 3:
                     fechaFestivo = pascua.plusDays(festivo.getDiasPascua());
+                    fechasFestivos.add(fechaFestivo);
                     break;
 
                 case 4:
@@ -54,8 +79,8 @@ public class FestivoServicioImpl implements IFestivoServicio {
                     if (fechaFestivo.getDayOfWeek() != DayOfWeek.MONDAY) {
                         fechaFestivo = fechaFestivo.with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
                     }
+                    fechasFestivos.add(fechaFestivo);
                     break;
-
 
                 case 5: // Ley Puente Festivo Viernes
                     fechaFestivo = LocalDate.of(anio, festivo.getMes(), festivo.getDia());
@@ -69,6 +94,7 @@ public class FestivoServicioImpl implements IFestivoServicio {
 
         return fechasFestivos.contains(fecha);
     }
+
 
     @Override
     public List<Festivo> obtenerFestivosDelAnio(String pais, int anio) {
